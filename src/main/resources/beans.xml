@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<context:property-placeholder location="config.properties" />
+
+	<context:component-scan base-package="com.vti.kafka" />
+
+	<bean id="viewKafkaRevicer" class="com.vti.kafka.recevicer.ViewKafkaReceiver">
+		<property name="topic" value="${kafka.view.topic}" />
+		<property name="group" value="${kafka.group.id}" />
+		<property name="zookeeper" value="${kafka.zookeeper.url}" />
+	</bean>
+
+	<bean id="clickKafkaRevicer" class="com.vti.kafka.recevicer.ClickKafkaReceiver">
+		<property name="topic" value="${kafka.click.topic}" />
+		<property name="group" value="${kafka.group.id}" />
+		<property name="zookeeper" value="${kafka.zookeeper.url}" />
+	</bean>
+
+	<bean id="regKafkaRevicer" class="com.vti.kafka.recevicer.RegKafkaReceiver">
+		<property name="topic" value="${kafka.reg.topic}" />
+		<property name="group" value="${kafka.group.id}" />
+		<property name="zookeeper" value="${kafka.zookeeper.url}" />
+	</bean>
+
+	<bean id="guavaCacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+		<property name="cacheSpecification" value="maximumSize=10000,expireAfterWrite=72h" />
+		<property name="cacheNames" value="default" />
+	</bean>
+
+</beans>
